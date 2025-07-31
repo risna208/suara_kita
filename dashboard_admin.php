@@ -1,6 +1,4 @@
 <?php
-// session_start(); // HAPUS BARIS INI - sudah dipanggil di config.php atau koneksi.php
-
 // Sertakan file konfigurasi Anda (misalnya koneksi.php atau config.php)
 // Asumsi 'config.php' berisi koneksi database dan sudah memanggil session_start()
 include 'config.php'; // Pastikan path ini benar
@@ -172,7 +170,11 @@ $username_admin = $_SESSION['username'] ?? 'Admin'; // Gunakan 'Admin' sebagai d
                     Kelola Pengguna Sistem
                 </a>
             </div>
-            
+            <div class="col-md-6 mt-4"> <a href="cetak_laporan_pengaduan.php" class="action-link">
+                    <span class="icon"><i class="fas fa-chart-bar"></i></span>
+                     Laporan
+                </a>
+            </div>
         </div>
 
         <div class="text-center mt-4">

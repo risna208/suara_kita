@@ -1,9 +1,8 @@
 <?php
-// BARIS PERTAMA DI FILE INI
+
 include 'config.php'; // Pastikan ini ada dan memanggil session_start()
 
-// LOGIKA PENCEGAHAN AKSES TIDAK SAH
-// Jika pengguna belum login, atau role-nya bukan 'siswa', arahkan kembali ke halaman login.
+
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['role'] !== 'siswa') {
     header('location: index.php'); // Arahkan ke halaman login
     exit; // Sangat penting untuk menghentikan eksekusi skrip
@@ -25,15 +24,14 @@ $username_siswa = $_SESSION['username'] ?? 'Siswa'; // Tambahkan ?? 'Siswa' untu
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root {
-            --primary-blue: #007bff; /* Biru terang untuk elemen utama */
-            --dark-blue: #0056b3;    /* Biru lebih gelap untuk hover */
-            --secondary-yellow: #FFC107; /* Kuning untuk aksen dan tombol pengaturan */
-            --dark-yellow: #E0A800;  /* Kuning lebih gelap untuk hover */
-            --text-dark: #343a40;    /* Hampir hitam untuk teks */
+      :root {
+            --primary-blue: #007bff; 
+            --dark-blue: #0056b3;    
+            --light-blue: #e0f2ff;   
+            --text-dark: #343a40;    
             --text-light: #FFFFFF;
             --card-bg: #FFFFFF;
-            --subtitle-color: #6c757d; /* Abu-abu untuk teks subtitle */
+            --secondary-accent: #6c757d; 
         }
 
         body {
@@ -44,41 +42,42 @@ $username_siswa = $_SESSION['username'] ?? 'Siswa'; // Tambahkan ?? 'Siswa' untu
             justify-content: center;
             align-items: center;
             padding: 20px;
-            position: relative; /* Penting untuk positioning background-blur */
-            overflow: hidden; /* Mencegah scrollbar jika gambar terlalu besar */
+            position: relative; 
+            overflow: hidden; 
         }
 
-        /* Latar belakang dengan gambar ifsu.jpeg dan blur */
+       
         .background-blur {
-            position: fixed; /* Menempel di viewport */
+            position: fixed; 
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('ifsu.jpeg'); /* <-- PASTIKAN PATH GAMBAR BENAR! */
+            background-image: url('ifsu.jpeg'); 
             background-size: cover;
             background-position: center;
-            filter: blur(8px); /* Efek blur */
-            -webkit-filter: blur(8px); /* Kompatibilitas browser lama */
-            z-index: -1; /* Pastikan berada di belakang konten */
-            transform: scale(1.05); /* Sedikit scaling untuk menyembunyikan tepi buram */
+            filter: blur(8px); 
+            -webkit-filter: blur(8px); 
+            z-index: -1; 
+            transform: scale(1.05); 
         }
 
         .container-custom {
             background-color: var(--card-bg);
+           
             padding: 40px 50px;
             border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-            max-width: 900px; /* Lebar yang konsisten dengan dashboard admin */
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
+            max-width: 900px;
             width: 100%;
-            border: 1px solid rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 1;
+            border: 1px solid rgba(0,0,0,0.1); 
+            position: relative; 
+            z-index: 1; 
         }
         h2 {
             font-family: 'Poppins', sans-serif;
             margin-bottom: 30px;
-            color: var(--primary-blue); /* Judul biru utama */
+            color: var(--primary-blue); 
             font-weight: 700;
             text-align: center;
             font-size: 2.5rem;
@@ -86,17 +85,17 @@ $username_siswa = $_SESSION['username'] ?? 'Siswa'; // Tambahkan ?? 'Siswa' untu
         }
         .subtitle {
             font-size: 1.1rem;
-            color: var(--subtitle-color); /* Subtitle abu-abu */
+            color: var(--secondary-accent); 
             text-align: center;
             margin-bottom: 40px;
         }
-        .action-link { /* Ubah nama class dari .action-btn menjadi .action-link untuk konsistensi */
-            display: flex; /* Gunakan flexbox untuk ikon dan teks */
+        .action-link {
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px; /* Jarak antara ikon dan teks */
+            gap: 10px;
             padding: 20px;
-            background-color: var(--primary-blue); /* Tombol aksi biru utama */
+            background-color: var(--primary-blue); 
             color: var(--text-light);
             text-decoration: none;
             border-radius: 10px;
@@ -104,30 +103,28 @@ $username_siswa = $_SESSION['username'] ?? 'Siswa'; // Tambahkan ?? 'Siswa' untu
             font-weight: 600;
             transition: all 0.3s ease;
             text-align: center;
-            height: 100%; /* Agar tombol memiliki tinggi yang sama jika dalam grid */
+            height: 100%;
         }
         .action-link:hover {
-            background-color: var(--dark-blue); /* Tombol aksi biru lebih gelap saat hover */
+            background-color: var(--dark-blue); 
             color: var(--text-light);
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
-        .action-link .icon { /* Gaya untuk ikon di dalam tombol */
+        .action-link .icon {
             font-size: 1.5rem;
         }
-        /* Tidak ada tombol 'Pengaturan Sistem' di dashboard siswa, jadi tidak perlu .settings-btn */
-
         .logout-btn {
-            background-color: #dc3545; /* Tetap merah untuk logout */
+            background-color: #dc3545; 
             color: white;
             border: none;
-            border-radius: 8px; /* Lebih bulat agar konsisten */
-            padding: 12px 25px; /* Padding yang konsisten */
+            border-radius: 8px;
+            padding: 12px 25px;
             font-size: 1rem;
             transition: background-color 0.3s ease, transform 0.2s ease;
             text-decoration: none;
             display: inline-block;
-            margin-top: 30px; /* Margin atas yang konsisten */
+            margin-top: 30px;
             font-weight: 600;
         }
         .logout-btn:hover {

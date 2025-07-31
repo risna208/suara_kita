@@ -1,11 +1,8 @@
 <?php
 include 'config.php';
 
-// Jika sudah login, arahkan ke dashboard yang sesuai
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    if ($_SESSION['role'] == 'admin') {
-        header('location: dashboard_admin.php');
-    } elseif ($_SESSION['role'] == 'petugas') { // <--- Tambahkan redirect untuk petugas juga
+    if ($_SESSION['role'] == 'petugas') { // <--- Tambahkan redirect untuk petugas juga
         header('location: dashboard_petugas.php'); // Pastikan Anda memiliki file dashboard_petugas.php
     } elseif ($_SESSION['role'] == 'siswa') {
         header('location: dashboard_siswa.php');
@@ -15,7 +12,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
 // Inisialisasi variabel untuk pesan pop-up
 $popup_message = '';
-$popup_type = ''; // success atau danger
+$popup_type = ''; 
 
 // Menampilkan pesan error/sukses dari sesi
 if (isset($_SESSION['login_error'])) {
@@ -40,14 +37,14 @@ if (isset($_SESSION['login_error'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --primary-blue: #007bff; /* Biru terang untuk elemen utama */
-            --dark-blue: #0056b3;    /* Biru lebih gelap untuk hover */
-            --secondary-yellow: #FFC107; /* Kuning untuk aksen */
-            --dark-yellow: #E0A800;  /* Kuning lebih gelap untuk hover */
-            --text-dark: #343a40;    /* Hampir hitam untuk teks */
+            --primary-blue: #007bff; 
+            --dark-blue: #0056b3;  
+            --secondary-yellow: #FFC107; 
+            --dark-yellow: #E0A800;   
+            --text-dark: #343a40;     
             --text-light: #FFFFFF;
             --card-bg: #FFFFFF;
-            --subtitle-color: #6c757d; /* Abu-abu untuk teks subtitle */
+            --subtitle-color: #6c757d; 
         }
 
         body {
@@ -58,100 +55,100 @@ if (isset($_SESSION['login_error'])) {
             justify-content: center;
             align-items: center;
             padding: 20px;
-            position: relative; /* Penting untuk positioning background-blur */
-            overflow: hidden; /* Mencegah scrollbar jika gambar terlalu besar */
+            position: relative; 
+            overflow: hidden; 
         }
 
-        /* Latar belakang dengan gambar ifsu.jpeg dan blur */
+        
         .background-blur {
-            position: fixed; /* Menempel di viewport */
+            position: fixed; 
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('ifsu.jpeg'); /* <-- PASTIKAN PATH GAMBAR BENAR! */
+            background-image: url('ifsu.jpeg'); 
             background-size: cover;
             background-position: center;
-            filter: blur(8px); /* Efek blur */
-            -webkit-filter: blur(8px); /* Kompatibilitas browser lama */
-            z-index: -1; /* Pastikan berada di belakang konten */
-            transform: scale(1.05); /* Sedikit scaling untuk menyembunyikan tepi buram */
+            filter: blur(8px); 
+            -webkit-filter: blur(8px); 
+            z-index: -1; 
+            transform: scale(1.05); 
         }
 
         .login-container {
             background-color: var(--card-bg);
-            padding: 40px 50px; /* Padding disesuaikan agar konsisten */
-            border-radius: 15px; /* Border radius lebih besar */
+            padding: 40px 50px; 
+            border-radius: 15px; 
             box-shadow: 0 8px 30px rgba(0,0,0,0.2);
             width: 100%;
-            max-width: 400px; /* Tetap 400px seperti sebelumnya */
+            max-width: 400px; 
             text-align: center;
-            border: 1px solid rgba(0,0,0,0.1); /* Border ditambahkan */
+            border: 1px solid rgba(0,0,0,0.1); 
             position: relative;
             z-index: 1;
         }
 
         .login-container .logo-container {
-            margin-bottom: 30px; /* Jarak antara logo dan judul */
+            margin-bottom: 30px; 
             text-align: center;
         }
 
         .login-container .logo-container img {
-            width: 100px; /* Sesuaikan ukuran logo */
+            width: 100px; 
             height: auto;
-            border-radius: 50%; /* Jika ingin logo berbentuk bulat */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Sedikit shadow pada logo */
+            border-radius: 50%; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
         }
 
         .login-container h2 {
-            font-family: 'Poppins', sans-serif; /* Font Poppins untuk judul */
+            font-family: 'Poppins', sans-serif; 
             margin-bottom: 30px;
-            color: var(--primary-blue); /* Judul biru utama */
+            color: var(--primary-blue); 
             font-weight: 700;
             text-align: center;
-            font-size: 2rem; /* Ukuran font lebih besar */
+            font-size: 2rem; 
             line-height: 1.2;
         }
         .form-control {
-            border-radius: 10px; /* Border radius lebih besar */
+            border-radius: 10px; 
             padding: 12px 15px;
-            border: 1px solid rgba(0,0,0,0.2); /* Warna border netral */
+            border: 1px solid rgba(0,0,0,0.2); 
         }
         .form-control:focus {
-            border-color: var(--primary-blue); /* Border biru saat focus */
-            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Shadow biru saat focus */
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); 
         }
         .btn-login {
-            background-color: var(--primary-blue); /* Tombol login biru */
+            background-color: var(--primary-blue); 
             color: var(--text-light);
             border: none;
-            border-radius: 10px; /* Border radius lebih besar */
+            border-radius: 10px; 
             padding: 12px;
             font-size: 1.1rem;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease; /* Transisi tambahan */
+            transition: background-color 0.3s ease, transform 0.2s ease; 
         }
         .btn-login:hover {
-            background-color: var(--dark-blue); /* Biru lebih gelap saat hover */
+            background-color: var(--dark-blue); 
             color: var(--text-light);
-            transform: translateY(-2px); /* Efek angkat sedikit */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Shadow saat hover */
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
         }
         .login-link {
             margin-top: 25px;
             font-size: 0.95rem;
-            color: var(--subtitle-color); /* Warna teks abu-abu */
+            color: var(--subtitle-color); 
         }
         .login-link a {
-            color: var(--primary-blue); /* Link daftar biru */
+            color: var(--primary-blue); 
             text-decoration: none;
-            font-weight: 600; /* Lebih tebal */
+            font-weight: 600; 
         }
         .login-link a:hover {
             text-decoration: underline;
-            color: var(--dark-blue); /* Biru lebih gelap saat hover */
+            color: var(--dark-blue); 
         }
-        /* Styling tambahan untuk alert pop-up */
+       
         .alert-fixed {
             position: fixed;
             top: 20px;
